@@ -1,5 +1,6 @@
 package drewwhis.binaryswitches;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -43,7 +44,6 @@ public class GameActivity extends AppCompatActivity {
 
     initializeAllTextViews();
     initializeAllPowerToggleButtons();
-
 
     if (newNumber == null) {
       newNumber = findViewById(R.id.newNumberButton);
@@ -112,6 +112,8 @@ public class GameActivity extends AppCompatActivity {
       });
     }
 
+    goal.setTypeface(Typeface.createFromAsset(getAssets(),  "fonts/Segment7Standard.otf"));
+
     if (progress == null) {
       progress = findViewById(R.id.progressText);
       progress.addTextChangedListener(new TextWatcher() {
@@ -139,6 +141,8 @@ public class GameActivity extends AppCompatActivity {
         }
       });
     }
+
+    progress.setTypeface(Typeface.createFromAsset(getAssets(),  "fonts/Segment7Standard.otf"));
   }
 
   /**
