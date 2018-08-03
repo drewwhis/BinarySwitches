@@ -74,13 +74,13 @@ public class GameActivity extends AppCompatActivity {
 
   /**
    * Initializes each text view.
-   *
    * <p>
-   *   For each text view:
-   *   <ul>
-   *     <li>Assigns the text view to a variable.</li>
-   *     <li>Apply the text changed listener to toast when progress matches goal.</li>
-   *   </ul>
+   * <p>
+   * For each text view:
+   * <ul>
+   * <li>Assigns the text view to a variable.</li>
+   * <li>Apply the text changed listener to toast when progress matches goal.</li>
+   * </ul>
    * </p>
    */
   private void initializeAllTextViews() {
@@ -157,16 +157,17 @@ public class GameActivity extends AppCompatActivity {
 
   /**
    * Initializes a specific power toggle button.
-   *
    * <p>
-   *   For a given toggle button:
-   *   <ul>
-   *     <li>Assigns the toggle button into the toggle button array.</li>
-   *     <li>Toggles it off.</li>
-   *     <li>Applies the on checked changed listener to adjust progressValue and progress text.</li>
-   *   </ul>
+   * <p>
+   * For a given toggle button:
+   * <ul>
+   * <li>Assigns the toggle button into the toggle button array.</li>
+   * <li>Toggles it off.</li>
+   * <li>Applies the on checked changed listener to adjust progressValue and progress text.</li>
+   * </ul>
    * </p>
-   * @param id The R.id value of the toggle button.
+   *
+   * @param id    The R.id value of the toggle button.
    * @param power The power of 2 represented by the toggle button.
    */
   private void initializePowerToggleButton(int id, final int power) {
