@@ -2,218 +2,37 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/game_activity_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity">
+    tools:context=".ui.activities.GameActivity">
 
     <TextView
-        android:id="@+id/powerLabel0"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/value_1"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@+id/powerButton0"
-        app:layout_constraintStart_toEndOf="@+id/powerButton1"
-        app:layout_constraintTop_toBottomOf="@+id/powerButton0" />
-
-    <TextView
-        android:id="@+id/powerLabel1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/value_2"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@+id/powerButton1"
-        app:layout_constraintStart_toEndOf="@+id/powerButton2"
-        app:layout_constraintTop_toBottomOf="@+id/powerButton1" />
-
-    <TextView
-        android:id="@+id/powerLabel2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/value_4"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@+id/powerButton2"
-        app:layout_constraintStart_toStartOf="@+id/powerButton2"
-        app:layout_constraintTop_toBottomOf="@+id/powerButton2" />
-
-    <TextView
-        android:id="@+id/powerLabel3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/value_8"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toStartOf="@+id/powerButton2"
-        app:layout_constraintStart_toStartOf="@+id/powerButton3"
-        app:layout_constraintTop_toBottomOf="@+id/powerButton3" />
-
-    <TextView
-        android:id="@+id/powerLabel4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/value_16"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@+id/powerButton4"
-        app:layout_constraintStart_toEndOf="@+id/powerButton5"
-        app:layout_constraintTop_toBottomOf="@+id/powerButton4" />
-
-    <TextView
-        android:id="@+id/powerLabel5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/value_32"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@+id/powerButton5"
-        app:layout_constraintStart_toEndOf="@+id/powerButton6"
-        app:layout_constraintTop_toBottomOf="@+id/powerButton5" />
-
-    <TextView
-        android:id="@+id/powerLabel6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/value_64"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@+id/powerButton6"
-        app:layout_constraintStart_toStartOf="@+id/powerButton6"
-        app:layout_constraintTop_toBottomOf="@+id/powerButton6" />
-
-    <TextView
-        android:id="@+id/powerLabel7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/value_128"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toStartOf="@+id/powerButton6"
-        app:layout_constraintStart_toStartOf="@+id/powerButton7"
-        app:layout_constraintTop_toBottomOf="@+id/powerButton7" />
-
-    <ToggleButton
-        android:id="@+id/powerButton7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressText" />
-
-    <ToggleButton
-        android:id="@+id/powerButton6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/powerButton7"
-        app:layout_constraintTop_toTopOf="@+id/powerButton7" />
-
-    <ToggleButton
-        android:id="@+id/powerButton5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/powerButton6"
-        app:layout_constraintTop_toTopOf="@+id/powerButton6" />
-
-    <ToggleButton
-        android:id="@+id/powerButton4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/powerButton5"
-        app:layout_constraintTop_toTopOf="@+id/powerButton5" />
-
-    <ToggleButton
-        android:id="@+id/powerButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/powerLabel7" />
-
-    <ToggleButton
-        android:id="@+id/powerButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/powerButton3"
-        app:layout_constraintTop_toTopOf="@+id/powerButton3" />
-
-    <ToggleButton
-        android:id="@+id/powerButton1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/powerButton2"
-        app:layout_constraintTop_toTopOf="@+id/powerButton2" />
-
-    <ToggleButton
-        android:id="@+id/powerButton0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/powerButton1"
-        app:layout_constraintTop_toTopOf="@+id/powerButton1" />
-
-    <TextView
-        android:id="@+id/goalLabel"
+        android:id="@+id/goal_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/goal"
         android:textColor="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/goalText"
+        app:layout_constraintBottom_toBottomOf="@+id/goal_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/goalText" />
+        app:layout_constraintTop_toTopOf="@+id/goal_text" />
 
     <TextView
-        android:id="@+id/progressLabel"
+        android:id="@+id/current_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/current"
         android:textColor="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/progressText"
+        app:layout_constraintBottom_toBottomOf="@+id/current_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/progressText" />
+        app:layout_constraintTop_toTopOf="@+id/current_text" />
 
     <Button
-        android:id="@+id/newNumberButton"
+        android:id="@+id/new_number_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -224,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/resetButton"
+        android:id="@+id/reset_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -235,26 +54,28 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/progressText"
-        android:layout_width="200dp"
+        android:id="@+id/current_text"
+        android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@android:color/black"
+        android:gravity="center"
         android:textColor="@android:color/holo_green_dark"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goalText" />
+        app:layout_constraintTop_toBottomOf="@+id/goal_text" />
 
     <TextView
-        android:id="@+id/goalText"
-        android:layout_width="200dp"
+        android:id="@+id/goal_text"
+        android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@android:color/black"
+        android:gravity="center"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
