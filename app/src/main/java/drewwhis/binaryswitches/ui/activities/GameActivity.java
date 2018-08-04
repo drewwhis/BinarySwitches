@@ -1,5 +1,7 @@
 package drewwhis.binaryswitches.ui.activities;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableInt;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -8,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,11 +18,12 @@ import java.util.Locale;
 import java.util.Random;
 
 import drewwhis.binaryswitches.R;
+import drewwhis.binaryswitches.databinding.ActivityGameBinding;
 import drewwhis.binaryswitches.listeners.ToggleListener;
 import drewwhis.binaryswitches.ui.views.ToggleLabelViewGroup;
 
 public class GameActivity extends AppCompatActivity {
-  private static final int BYTES = 1;
+  private static final int BYTES = 2;
   private static final int BITS_PER_BYTE = 8;
   private static final int MAX_BOUND = (int) Math.pow(2, BYTES * BITS_PER_BYTE);
 
@@ -31,8 +33,10 @@ public class GameActivity extends AppCompatActivity {
   private TextView goal;
   private TextView progress;
 
-  private Random random;
-  private int mValue = 0;
+  private Random random = new Random();
+  private ObservableInt mValue = new ObservableInt(0);
+
+  private ActivityGameBinding binding;
 
   /**
    * Initializes all views and variables.
@@ -41,11 +45,8 @@ public class GameActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_game);
-
-    if (random == null) {
-      random = new Random();
-    }
+    binding = DataBindingUtil.setContentView(this, R.layout.activity_game);
+    binding.setCurrentValue(mValue);
 
     initializeAllTextViews();
 
@@ -189,11 +190,11 @@ public class GameActivity extends AppCompatActivity {
   }
 
   public int getCurrentValue() {
-    return mValue;
+    return mValue.get();
   }
 
   public void setCurrentValue(int newValue) {
-    mValue = newValue;
+    mValue.set(newValue);
   }
 
 }
