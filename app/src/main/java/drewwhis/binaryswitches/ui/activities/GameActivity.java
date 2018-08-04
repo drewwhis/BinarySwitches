@@ -3,7 +3,6 @@ package drewwhis.binaryswitches.ui.activities;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableLong;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +18,7 @@ import drewwhis.binaryswitches.listeners.ValuesListener;
 import drewwhis.binaryswitches.ui.views.NybbleViewGroup;
 
 public class GameActivity extends AppCompatActivity {
-  private static final int BYTES = 5;
+  private static final int BYTES = 2;
   private static final int BITS_PER_BYTE = 8;
   private static final long MAX_BOUND = (long) Math.pow(2, BYTES * BITS_PER_BYTE);
 
@@ -69,7 +68,6 @@ public class GameActivity extends AppCompatActivity {
       });
     }
 
-    final ConstraintLayout topLayout = findViewById(R.id.game_activity_layout);
     final LinearLayout scrollLayout = findViewById(R.id.nybble_scroll_linear);
 
     for (int i = 2 * BYTES - 1; i >= 0; i--) {
@@ -85,9 +83,9 @@ public class GameActivity extends AppCompatActivity {
       reset.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-          for (int i = 0; i < topLayout.getChildCount(); i++) {
-            if (topLayout.getChildAt(i) instanceof NybbleViewGroup) {
-              ((NybbleViewGroup) topLayout.getChildAt(i)).reset();
+          for (int i = 0; i < scrollLayout.getChildCount(); i++) {
+            if (scrollLayout.getChildAt(i) instanceof NybbleViewGroup) {
+              ((NybbleViewGroup) scrollLayout.getChildAt(i)).reset();
             }
           }
         }
