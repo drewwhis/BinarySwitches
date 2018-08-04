@@ -1,9 +1,11 @@
 package drewwhis.binaryswitches.ui.views;
 
-
 import android.content.Context;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -13,33 +15,51 @@ import android.widget.ToggleButton;
 import java.util.Locale;
 
 import drewwhis.binaryswitches.R;
-import drewwhis.binaryswitches.listeners.ToggleListener;
 
+/**
+ * ViewGroup to contain a single ToggleButton above a single TextView.
+ * ViewGroup that represents a bit.
+ * TextView represents the value of the bit.
+ * ToggleButton represents the state of the bit.
+ */
 public class ToggleLabelViewGroup extends LinearLayout {
   private static final String TAG = ToggleLabelViewGroup.class.getSimpleName();
   private static final int TOGGLE_INDEX = 0;
   private static final int LABEL_INDEX = 1;
 
-  private final ToggleButton mToggleButton;
-  private final TextView mTextView;
-  private final int mBitIndex;
+  private ToggleButton mToggleButton;
+  private TextView mTextView;
+  private int mBitIndex;
 
-  public ToggleLabelViewGroup(Context context) {
-    super(context);
-    mToggleButton = null;
-    mTextView = null;
-    mBitIndex = 0;
+  /**
+   * {@inheritDoc}
+   * @throws InflateException Could not get inflater.
+   */
+  public ToggleLabelViewGroup(Context context) throws InflateException {
+    this(context, null);
   }
 
-  public ToggleLabelViewGroup(Context context, int bitIndex) throws IllegalArgumentException {
-    super(context);
+  /**
+   * {@inheritDoc}
+   * @throws InflateException Could not get inflater.
+   */
+  public ToggleLabelViewGroup(Context context, @Nullable AttributeSet attrs) throws InflateException {
+    this(context, attrs, 0);
+  }
+
+  /**
+   * {@inheritDoc}
+   * @throws InflateException Could not get inflater.
+   */
+  public ToggleLabelViewGroup(Context context, @Nullable AttributeSet attrs, int defStyleAttr) throws InflateException {
+    super(context, attrs, defStyleAttr);
 
     LayoutInflater inflater =
         (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     if (inflater == null) {
       Log.e(TAG, "Null Inflater.");
-      throw new IllegalArgumentException("Could not get inflater.");
+      throw new InflateException("Could not get inflater.");
     }
 
     setOrientation(LinearLayout.VERTICAL);
@@ -48,33 +68,37 @@ public class ToggleLabelViewGroup extends LinearLayout {
 
     mToggleButton = (ToggleButton) getChildAt(TOGGLE_INDEX);
     mTextView = (TextView) getChildAt(LABEL_INDEX);
-    mBitIndex = bitIndex;
 
     mToggleButton.setChecked(false);
+    setBitIndex(0);
+  }
+
+  /**
+   * Sets the bit index of the bit in the context of an overall number and updates the TextView.
+   * @param index Bit index of this bit in the context of an overall number.
+   */
+  public void setBitIndex(int index) {
+    mBitIndex = index;
+
     mTextView.setText(String.format(
         Locale.US,
         getResources().getString(R.string.number_format),
         getBitValue()));
   }
 
-  public int getBitIndex() {
-    return mBitIndex;
-  }
-
+  /**
+   * Gets the value of the bit as a power of two based on it's index.
+   * @return Value of the bit as a power of two.
+   */
   public int getBitValue() {
     return (int) Math.pow(2, mBitIndex);
   }
 
-  @Override
-  protected void onLayout(boolean b, int i, int i1, int i2, int i3) {
-    super.onLayout(b, i, i1, i2, i3);
-  }
-
-  @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-  }
-
+  /**
+   * Applies the OnCheckedChangeListener to the ToggleButton.
+   * @param listener CheckedChangeListener.
+   * @throws IllegalArgumentException Listener cannot be null.
+   */
   public void setOnCheckedChangedListener(CompoundButton.OnCheckedChangeListener listener) throws IllegalArgumentException {
     if (listener == null) {
       throw new IllegalArgumentException("Listener cannot be null.");
@@ -83,8 +107,12 @@ public class ToggleLabelViewGroup extends LinearLayout {
     mToggleButton.setOnCheckedChangeListener(listener);
   }
 
-  public void reset() {
-    mToggleButton.setChecked(false);
+  /**
+   * Sets the toggled state of the toggle button.
+   * @param toggledState Whether the button should be toggled.
+   */
+  public void setToggledState(boolean toggledState) {
+    mToggleButton.setChecked(toggledState);
   }
 
 }
