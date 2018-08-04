@@ -3,20 +3,24 @@
     <drewwhis.binaryswitches.ui.views.ToggleLabelViewGroup
         android:id="@+id/nybble_bit_3"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 
     <drewwhis.binaryswitches.ui.views.ToggleLabelViewGroup
         android:id="@+id/nybble_bit_2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 
     <drewwhis.binaryswitches.ui.views.ToggleLabelViewGroup
         android:id="@+id/nybble_bit_1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 
     <drewwhis.binaryswitches.ui.views.ToggleLabelViewGroup
         android:id="@+id/nybble_bit_0"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 </merge>
