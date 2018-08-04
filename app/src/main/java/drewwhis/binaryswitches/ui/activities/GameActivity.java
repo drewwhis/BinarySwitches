@@ -2,28 +2,24 @@ package drewwhis.binaryswitches.ui.activities;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableInt;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Locale;
 import java.util.Random;
 
 import drewwhis.binaryswitches.R;
 import drewwhis.binaryswitches.databinding.ActivityGameBinding;
-import drewwhis.binaryswitches.listeners.ToggleListener;
-import drewwhis.binaryswitches.ui.views.ToggleLabelViewGroup;
+import drewwhis.binaryswitches.listeners.ValuesListener;
+import drewwhis.binaryswitches.ui.views.NybbleViewGroup;
 
 public class GameActivity extends AppCompatActivity {
-  private static final int BYTES = 2;
+  private static final int BYTES = 1;
   private static final int BITS_PER_BYTE = 8;
   private static final int MAX_BOUND = (int) Math.pow(2, BYTES * BITS_PER_BYTE);
 
@@ -36,19 +32,29 @@ public class GameActivity extends AppCompatActivity {
   private Random random = new Random();
   private ObservableInt mValue = new ObservableInt(0);
 
-  private ActivityGameBinding binding;
-
   /**
    * Initializes all views and variables.
+   *
    * {@inheritDoc}
    */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    binding = DataBindingUtil.setContentView(this, R.layout.activity_game);
+    ActivityGameBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_game);
     binding.setCurrentValue(mValue);
 
-    initializeAllTextViews();
+    if (goal == null) {
+      goal = findViewById(R.id.goal_text);
+    }
+
+    if (progress == null) {
+      progress = findViewById(R.id.current_text);
+    }
+
+    ValuesListener textListener
+        = new ValuesListener(goal, progress, getResources().getString(R.string.values_match_toast));
+    goal.addTextChangedListener(textListener);
+    progress.addTextChangedListener(textListener);
 
     if (newNumber == null) {
       newNumber = findViewById(R.id.new_number_button);
@@ -65,40 +71,17 @@ public class GameActivity extends AppCompatActivity {
     }
 
     final ConstraintLayout topLayout = findViewById(R.id.game_activity_layout);
-    ToggleLabelViewGroup toggleLabelViewGroup;
-    int topConstrainingViewId = R.id.current_text;
+    NybbleViewGroup nybbleViewGroup = new NybbleViewGroup(this);
+    nybbleViewGroup.setNybbleIndex(0);
+    nybbleViewGroup.applyOnCheckedChangeListenersTo(this);
+    nybbleViewGroup.setId(View.generateViewId());
+    topLayout.addView(nybbleViewGroup);
 
-    for (int row = BYTES; row > 0; row--) {
-      toggleLabelViewGroup = new ToggleLabelViewGroup(this, row * BITS_PER_BYTE - 1);
-      toggleLabelViewGroup.setOnCheckedChangedListener(new ToggleListener(this, toggleLabelViewGroup));
-
-      toggleLabelViewGroup.setId(View.generateViewId());
-      topLayout.addView(toggleLabelViewGroup);
-
-      ConstraintSet constraintSet = new ConstraintSet();
-      constraintSet.clone(topLayout);
-      constraintSet.connect(toggleLabelViewGroup.getId(), ConstraintSet.LEFT, topLayout.getId(), ConstraintSet.LEFT, 16);
-      constraintSet.connect(toggleLabelViewGroup.getId(), ConstraintSet.TOP, topConstrainingViewId, ConstraintSet.BOTTOM, 16);
-      constraintSet.applyTo(topLayout);
-
-      topConstrainingViewId = toggleLabelViewGroup.getId();
-
-      for (int bit = 2; bit <= 8; bit++) {
-        toggleLabelViewGroup = new ToggleLabelViewGroup(this, row * BITS_PER_BYTE - bit);
-        toggleLabelViewGroup.setOnCheckedChangedListener(new ToggleListener(this, toggleLabelViewGroup));
-
-        toggleLabelViewGroup.setId(View.generateViewId());
-        topLayout.addView(toggleLabelViewGroup);
-
-        constraintSet = new ConstraintSet();
-        constraintSet.clone(topLayout);
-        constraintSet.connect(toggleLabelViewGroup.getId(), ConstraintSet.LEFT, topConstrainingViewId, ConstraintSet.RIGHT, 0);
-        constraintSet.connect(toggleLabelViewGroup.getId(), ConstraintSet.TOP, topConstrainingViewId, ConstraintSet.TOP, 0);
-        constraintSet.applyTo(topLayout);
-
-        topConstrainingViewId = toggleLabelViewGroup.getId();
-      }
-    }
+    ConstraintSet constraintSet = new ConstraintSet();
+    constraintSet.clone(topLayout);
+    constraintSet.connect(nybbleViewGroup.getId(), ConstraintSet.LEFT, topLayout.getId(), ConstraintSet.LEFT, 16);
+    constraintSet.connect(nybbleViewGroup.getId(), ConstraintSet.TOP, R.id.current_text, ConstraintSet.BOTTOM, 16);
+    constraintSet.applyTo(topLayout);
 
     if (reset == null) {
       reset = findViewById(R.id.reset_button);
@@ -106,8 +89,8 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
           for (int i = 0; i < topLayout.getChildCount(); i++) {
-            if (topLayout.getChildAt(i) instanceof ToggleLabelViewGroup) {
-              ((ToggleLabelViewGroup) topLayout.getChildAt(i)).reset();
+            if (topLayout.getChildAt(i) instanceof NybbleViewGroup) {
+              ((NybbleViewGroup) topLayout.getChildAt(i)).reset();
             }
           }
         }
@@ -115,84 +98,18 @@ public class GameActivity extends AppCompatActivity {
     }
   }
 
-
   /**
-   * Initializes each text view.
-   * <p>
-   * <p>
-   * For each text view:
-   * <ul>
-   * <li>Assigns the text view to a variable.</li>
-   * <li>Apply the text changed listener to toast when progress matches goal.</li>
-   * </ul>
-   * </p>
+   * Gets the current user value held by the activity.
+   * @return Current user value held by the activity.
    */
-  private void initializeAllTextViews() {
-    if (goal == null) {
-      goal = findViewById(R.id.goal_text);
-      goal.addTextChangedListener(new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-          // Do nothing before text changes.
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-          String currentGoal = charSequence.toString();
-          String currentProgress = progress.getText().toString();
-
-          if (currentGoal.equals(currentProgress)) {
-            Toast
-                .makeText(getApplicationContext(), "You got it!", Toast.LENGTH_SHORT)
-                .show();
-          }
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-          // Do nothing after text changes.
-        }
-      });
-    }
-
-    goal.setTypeface(Typeface.createFromAsset(getAssets(),  "fonts/Segment7Standard.otf"));
-
-    if (progress == null) {
-      progress = findViewById(R.id.current_text);
-      progress.addTextChangedListener(new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-          // Do nothing before text changes.
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-          String currentProgress = charSequence.toString();
-          String currentGoal = goal.getText().toString();
-
-          if (currentGoal.equals(currentProgress)) {
-            Toast
-                .makeText(getApplicationContext(), "You got it!", Toast.LENGTH_SHORT)
-                .show();
-          }
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-          // Do nothing after text changes.
-        }
-      });
-    }
-
-    progress.setTypeface(Typeface.createFromAsset(getAssets(),  "fonts/Segment7Standard.otf"));
-  }
-
   public int getCurrentValue() {
     return mValue.get();
   }
 
+  /**
+   * Sets the current user value held by the activity.
+   * @param newValue Current user value to be held by the activity.
+   */
   public void setCurrentValue(int newValue) {
     mValue.set(newValue);
   }
