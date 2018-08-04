@@ -19,7 +19,7 @@ import drewwhis.binaryswitches.R;
 import drewwhis.binaryswitches.ui.views.ToggleLabelViewGroup;
 
 public class GameActivity extends AppCompatActivity {
-  private static final int BYTES = 4;
+  private static final int BYTES = 1;
   private static final int BITS_PER_BYTE = 8;
   private static final int MAX_BOUND = (int) Math.pow(2, BYTES * BITS_PER_BYTE);
 
