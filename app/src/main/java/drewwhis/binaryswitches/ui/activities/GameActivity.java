@@ -1,17 +1,17 @@
 package drewwhis.binaryswitches.ui.activities;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableInt;
+import android.databinding.ObservableLong;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Locale;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import drewwhis.binaryswitches.R;
 import drewwhis.binaryswitches.databinding.ActivityGameBinding;
@@ -19,9 +19,9 @@ import drewwhis.binaryswitches.listeners.ValuesListener;
 import drewwhis.binaryswitches.ui.views.NybbleViewGroup;
 
 public class GameActivity extends AppCompatActivity {
-  private static final int BYTES = 1;
+  private static final int BYTES = 5;
   private static final int BITS_PER_BYTE = 8;
-  private static final int MAX_BOUND = (int) Math.pow(2, BYTES * BITS_PER_BYTE);
+  private static final long MAX_BOUND = (long) Math.pow(2, BYTES * BITS_PER_BYTE);
 
   private Button newNumber;
   private Button reset;
@@ -29,8 +29,7 @@ public class GameActivity extends AppCompatActivity {
   private TextView goal;
   private TextView progress;
 
-  private Random random = new Random();
-  private ObservableInt mValue = new ObservableInt(0);
+  private ObservableLong mValue = new ObservableLong(0);
 
   /**
    * Initializes all views and variables.
@@ -61,7 +60,7 @@ public class GameActivity extends AppCompatActivity {
       newNumber.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-          int value = random.nextInt(MAX_BOUND);
+          long value = Math.abs(ThreadLocalRandom.current().nextLong(MAX_BOUND));
           goal.setText(String.format(
               Locale.US,
               getResources().getString(R.string.number_format),
@@ -71,17 +70,15 @@ public class GameActivity extends AppCompatActivity {
     }
 
     final ConstraintLayout topLayout = findViewById(R.id.game_activity_layout);
-    NybbleViewGroup nybbleViewGroup = new NybbleViewGroup(this);
-    nybbleViewGroup.setNybbleIndex(0);
-    nybbleViewGroup.applyOnCheckedChangeListenersTo(this);
-    nybbleViewGroup.setId(View.generateViewId());
-    topLayout.addView(nybbleViewGroup);
+    final LinearLayout scrollLayout = findViewById(R.id.nybble_scroll);
 
-    ConstraintSet constraintSet = new ConstraintSet();
-    constraintSet.clone(topLayout);
-    constraintSet.connect(nybbleViewGroup.getId(), ConstraintSet.LEFT, topLayout.getId(), ConstraintSet.LEFT, 16);
-    constraintSet.connect(nybbleViewGroup.getId(), ConstraintSet.TOP, R.id.current_text, ConstraintSet.BOTTOM, 16);
-    constraintSet.applyTo(topLayout);
+    for (int i = 2 * BYTES - 1; i >= 0; i--) {
+      NybbleViewGroup nybbleViewGroup = new NybbleViewGroup(this);
+      nybbleViewGroup.setNybbleIndex(i);
+      nybbleViewGroup.applyOnCheckedChangeListenersTo(this);
+      nybbleViewGroup.setId(View.generateViewId());
+      scrollLayout.addView(nybbleViewGroup);
+    }
 
     if (reset == null) {
       reset = findViewById(R.id.reset_button);
@@ -102,7 +99,7 @@ public class GameActivity extends AppCompatActivity {
    * Gets the current user value held by the activity.
    * @return Current user value held by the activity.
    */
-  public int getCurrentValue() {
+  public long getCurrentValue() {
     return mValue.get();
   }
 
@@ -110,7 +107,7 @@ public class GameActivity extends AppCompatActivity {
    * Sets the current user value held by the activity.
    * @param newValue Current user value to be held by the activity.
    */
-  public void setCurrentValue(int newValue) {
+  public void setCurrentValue(long newValue) {
     mValue.set(newValue);
   }
 

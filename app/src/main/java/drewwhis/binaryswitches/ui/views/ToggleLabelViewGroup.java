@@ -90,8 +90,8 @@ public class ToggleLabelViewGroup extends LinearLayout {
    * Gets the value of the bit as a power of two based on it's index.
    * @return Value of the bit as a power of two.
    */
-  public int getBitValue() {
-    return (int) Math.pow(2, mBitIndex);
+  public long getBitValue() {
+    return (long) Math.pow(2, mBitIndex);
   }
 
   /**

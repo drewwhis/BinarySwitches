@@ -35,8 +35,8 @@ public class ToggleListener implements CompoundButton.OnCheckedChangeListener {
    */
   @Override
   public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-    int currentValue = mActivity.getCurrentValue();
-    int adjustingValue = mGroup.getBitValue();
+    long currentValue = mActivity.getCurrentValue();
+    long adjustingValue = mGroup.getBitValue();
     mActivity.setCurrentValue(b ? currentValue + adjustingValue : currentValue - adjustingValue);
   }
 }
