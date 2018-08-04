@@ -22,8 +22,8 @@ import drewwhis.binaryswitches.R;
  * TextView represents the value of the bit.
  * ToggleButton represents the state of the bit.
  */
-public class ToggleLabelViewGroup extends LinearLayout {
-  private static final String TAG = ToggleLabelViewGroup.class.getSimpleName();
+public class BitViewGroup extends LinearLayout {
+  private static final String TAG = BitViewGroup.class.getSimpleName();
   private static final int TOGGLE_INDEX = 0;
   private static final int LABEL_INDEX = 1;
 
@@ -35,7 +35,7 @@ public class ToggleLabelViewGroup extends LinearLayout {
    * {@inheritDoc}
    * @throws InflateException Could not get inflater.
    */
-  public ToggleLabelViewGroup(Context context) throws InflateException {
+  public BitViewGroup(Context context) throws InflateException {
     this(context, null);
   }
 
@@ -43,7 +43,7 @@ public class ToggleLabelViewGroup extends LinearLayout {
    * {@inheritDoc}
    * @throws InflateException Could not get inflater.
    */
-  public ToggleLabelViewGroup(Context context, @Nullable AttributeSet attrs) throws InflateException {
+  public BitViewGroup(Context context, @Nullable AttributeSet attrs) throws InflateException {
     this(context, attrs, 0);
   }
 
@@ -51,7 +51,7 @@ public class ToggleLabelViewGroup extends LinearLayout {
    * {@inheritDoc}
    * @throws InflateException Could not get inflater.
    */
-  public ToggleLabelViewGroup(Context context, @Nullable AttributeSet attrs, int defStyleAttr) throws InflateException {
+  public BitViewGroup(Context context, @Nullable AttributeSet attrs, int defStyleAttr) throws InflateException {
     super(context, attrs, defStyleAttr);
 
     LayoutInflater inflater =
@@ -64,7 +64,7 @@ public class ToggleLabelViewGroup extends LinearLayout {
 
     setOrientation(LinearLayout.VERTICAL);
     setGravity(Gravity.CENTER);
-    inflater.inflate(R.layout.viewgroup_toggle_label, this, true);
+    inflater.inflate(R.layout.viewgroup_bit, this, true);
 
     mToggleButton = (ToggleButton) getChildAt(TOGGLE_INDEX);
     mTextView = (TextView) getChildAt(LABEL_INDEX);

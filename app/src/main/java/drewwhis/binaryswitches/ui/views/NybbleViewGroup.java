@@ -18,14 +18,14 @@ import drewwhis.binaryswitches.listeners.ToggleListener;
 import drewwhis.binaryswitches.ui.activities.GameActivity;
 
 /**
- * ViewGroup to contain four ToggleLabelViewGroups.
+ * ViewGroup to contain four BitViewGroups.
  * ViewGroup to represent four bits (a nybble).
  */
 public class NybbleViewGroup extends LinearLayout {
   private static final String TAG = NybbleViewGroup.class.getSimpleName();
   private static final int BITS_PER_NYBBLE = 4;
 
-  private final List<ToggleLabelViewGroup> mBits;
+  private final List<BitViewGroup> mBits;
 
   private int mNybbleIndex;
 
@@ -64,9 +64,9 @@ public class NybbleViewGroup extends LinearLayout {
     setGravity(Gravity.CENTER);
     inflater.inflate(R.layout.viewgroup_nybble, this, true);
 
-    List<ToggleLabelViewGroup> tempBits = new ArrayList<>();
+    List<BitViewGroup> tempBits = new ArrayList<>();
     for (int i = 0; i < BITS_PER_NYBBLE; i++) {
-      tempBits.add((ToggleLabelViewGroup) getChildAt(i));
+      tempBits.add((BitViewGroup) getChildAt(i));
     }
 
     mBits = Collections.unmodifiableList(tempBits);
@@ -85,7 +85,7 @@ public class NybbleViewGroup extends LinearLayout {
   }
 
   /**
-   * Applies OnCheckedChangeListeners to the ToggleLabelViewGroups.
+   * Applies OnCheckedChangeListeners to the BitViewGroups.
    * @param context Activity to which the listeners should reference.
    * @throws IllegalArgumentException Activity cannot be null.
    */
@@ -95,7 +95,7 @@ public class NybbleViewGroup extends LinearLayout {
     }
 
     for (int i = 0; i < BITS_PER_NYBBLE; i++) {
-      ToggleLabelViewGroup bit = mBits.get(i);
+      BitViewGroup bit = mBits.get(i);
       bit.setOnCheckedChangedListener(new ToggleListener(context, bit));
     }
   }
@@ -104,7 +104,7 @@ public class NybbleViewGroup extends LinearLayout {
    * Sets all bits in the nybble to off.
    */
   public void reset() {
-    for (ToggleLabelViewGroup toggle : mBits) {
+    for (BitViewGroup toggle : mBits) {
       if (toggle != null) {
         toggle.setToggledState(false);
       }
