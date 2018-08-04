@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import drewwhis.binaryswitches.R;
+import drewwhis.binaryswitches.listeners.ToggleListener;
 import drewwhis.binaryswitches.ui.views.ToggleLabelViewGroup;
 
 public class GameActivity extends AppCompatActivity {
@@ -30,6 +32,7 @@ public class GameActivity extends AppCompatActivity {
   private TextView progress;
 
   private Random random;
+  private int mValue = 0;
 
   /**
    * Initializes all views and variables.
@@ -66,6 +69,8 @@ public class GameActivity extends AppCompatActivity {
 
     for (int row = BYTES; row > 0; row--) {
       toggleLabelViewGroup = new ToggleLabelViewGroup(this, row * BITS_PER_BYTE - 1);
+      toggleLabelViewGroup.setOnCheckedChangedListener(new ToggleListener(this, toggleLabelViewGroup));
+
       toggleLabelViewGroup.setId(View.generateViewId());
       topLayout.addView(toggleLabelViewGroup);
 
@@ -79,6 +84,8 @@ public class GameActivity extends AppCompatActivity {
 
       for (int bit = 2; bit <= 8; bit++) {
         toggleLabelViewGroup = new ToggleLabelViewGroup(this, row * BITS_PER_BYTE - bit);
+        toggleLabelViewGroup.setOnCheckedChangedListener(new ToggleListener(this, toggleLabelViewGroup));
+
         toggleLabelViewGroup.setId(View.generateViewId());
         topLayout.addView(toggleLabelViewGroup);
 
@@ -97,7 +104,11 @@ public class GameActivity extends AppCompatActivity {
       reset.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+          for (int i = 0; i < topLayout.getChildCount(); i++) {
+            if (topLayout.getChildAt(i) instanceof ToggleLabelViewGroup) {
+              ((ToggleLabelViewGroup) topLayout.getChildAt(i)).reset();
+            }
+          }
         }
       });
     }
@@ -175,6 +186,14 @@ public class GameActivity extends AppCompatActivity {
     }
 
     progress.setTypeface(Typeface.createFromAsset(getAssets(),  "fonts/Segment7Standard.otf"));
+  }
+
+  public int getCurrentValue() {
+    return mValue;
+  }
+
+  public void setCurrentValue(int newValue) {
+    mValue = newValue;
   }
 
 }

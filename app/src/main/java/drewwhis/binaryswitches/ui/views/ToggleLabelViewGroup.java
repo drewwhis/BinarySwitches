@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -12,6 +13,7 @@ import android.widget.ToggleButton;
 import java.util.Locale;
 
 import drewwhis.binaryswitches.R;
+import drewwhis.binaryswitches.listeners.ToggleListener;
 
 public class ToggleLabelViewGroup extends LinearLayout {
   private static final String TAG = ToggleLabelViewGroup.class.getSimpleName();
@@ -71,6 +73,18 @@ public class ToggleLabelViewGroup extends LinearLayout {
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+  }
+
+  public void setOnCheckedChangedListener(CompoundButton.OnCheckedChangeListener listener) throws IllegalArgumentException {
+    if (listener == null) {
+      throw new IllegalArgumentException("Listener cannot be null.");
+    }
+
+    mToggleButton.setOnCheckedChangeListener(listener);
+  }
+
+  public void reset() {
+    mToggleButton.setChecked(false);
   }
 
 }
