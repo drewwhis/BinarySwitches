@@ -1,33 +1,35 @@
-package drewwhis.binaryswitches;
+package drewwhis.binaryswitches.ui.activities;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import java.util.Locale;
 import java.util.Random;
 
-public class GameActivity extends AppCompatActivity {
-  private static final int TOGGLES = 8;
-  private static final int MAX_BOUND = (int) Math.pow(2, TOGGLES);
-  private static final String NUMBER_FORMAT = "%d";
+import drewwhis.binaryswitches.R;
+import drewwhis.binaryswitches.ui.views.ToggleLabelViewGroup;
 
-  private final ToggleButton[] powers = new ToggleButton[TOGGLES];
+public class GameActivity extends AppCompatActivity {
+  private static final int BYTES = 1;
+  private static final int BITS_PER_BYTE = 8;
+  private static final int MAX_BOUND = (int) Math.pow(2, BYTES * BITS_PER_BYTE);
 
   private Button newNumber;
   private Button reset;
+
   private TextView goal;
   private TextView progress;
+
   private Random random;
-  private int progressValue = 0;
 
   /**
    * Initializes all views and variables.
@@ -43,7 +45,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     initializeAllTextViews();
-    initializeAllPowerToggleButtons();
 
     if (newNumber == null) {
       newNumber = findViewById(R.id.newNumberButton);
@@ -51,9 +52,26 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
           int value = random.nextInt(MAX_BOUND);
-          goal.setText(String.format(Locale.US, NUMBER_FORMAT, value));
+          goal.setText(String.format(
+              Locale.US,
+              getResources().getString(R.string.number_format),
+              value));
         }
       });
+    }
+
+    final ConstraintLayout topLayout = findViewById(R.id.game_activity_layout);
+
+    ToggleLabelViewGroup toggleLabelViewGroup;
+    ConstraintSet constraintSet;
+
+    for (int i = BYTES; i > 0; i--) {
+      toggleLabelViewGroup = new ToggleLabelViewGroup(this, BITS_PER_BYTE * BYTES - 1);
+      topLayout.addView(toggleLabelViewGroup);
+
+      constraintSet = new ConstraintSet();
+      constraintSet.clone(topLayout);
+      constraintSet.connect(toggleLabelViewGroup.getId(), ConstraintSet.LEFT, topLayout.getId(), ConstraintSet.LEFT, 16);
     }
 
     if (reset == null) {
@@ -61,11 +79,7 @@ public class GameActivity extends AppCompatActivity {
       reset.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-          for (int power = 0; power < TOGGLES; power++) {
-            if (powers[power] != null) {
-              powers[power].setChecked(false);
-            }
-          }
+
         }
       });
     }
@@ -85,7 +99,7 @@ public class GameActivity extends AppCompatActivity {
    */
   private void initializeAllTextViews() {
     if (goal == null) {
-      goal = findViewById(R.id.goalText);
+      goal = findViewById(R.id.goal_text);
       goal.addTextChangedListener(new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -115,7 +129,7 @@ public class GameActivity extends AppCompatActivity {
     goal.setTypeface(Typeface.createFromAsset(getAssets(),  "fonts/Segment7Standard.otf"));
 
     if (progress == null) {
-      progress = findViewById(R.id.progressText);
+      progress = findViewById(R.id.current_text);
       progress.addTextChangedListener(new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -145,50 +159,4 @@ public class GameActivity extends AppCompatActivity {
     progress.setTypeface(Typeface.createFromAsset(getAssets(),  "fonts/Segment7Standard.otf"));
   }
 
-  /**
-   * Initializes all power toggle buttons.
-   */
-  private void initializeAllPowerToggleButtons() {
-    initializePowerToggleButton(R.id.powerButton0, 0);
-    initializePowerToggleButton(R.id.powerButton1, 1);
-    initializePowerToggleButton(R.id.powerButton2, 2);
-    initializePowerToggleButton(R.id.powerButton3, 3);
-    initializePowerToggleButton(R.id.powerButton4, 4);
-    initializePowerToggleButton(R.id.powerButton5, 5);
-    initializePowerToggleButton(R.id.powerButton6, 6);
-    initializePowerToggleButton(R.id.powerButton7, 7);
-  }
-
-  /**
-   * Initializes a specific power toggle button.
-   * <p>
-   * <p>
-   * For a given toggle button:
-   * <ul>
-   * <li>Assigns the toggle button into the toggle button array.</li>
-   * <li>Toggles it off.</li>
-   * <li>Applies the on checked changed listener to adjust progressValue and progress text.</li>
-   * </ul>
-   * </p>
-   *
-   * @param id    The R.id value of the toggle button.
-   * @param power The power of 2 represented by the toggle button.
-   */
-  private void initializePowerToggleButton(int id, final int power) {
-    if (power >= 0 && power < powers.length && powers[power] == null) {
-      powers[power] = findViewById(id);
-
-      if (powers[power] != null) {
-        powers[power].setChecked(false);
-        powers[power].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-          @Override
-          public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            int addend = (int) Math.pow(2, power);
-            progressValue = b ? progressValue + addend : progressValue - addend;
-            progress.setText(String.format(Locale.US, NUMBER_FORMAT, progressValue));
-          }
-        });
-      }
-    }
-  }
 }
