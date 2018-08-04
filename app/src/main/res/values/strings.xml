@@ -7,4 +7,7 @@
 
     <string name="number_format">%1$d</string>
 
+    <!-- Toast Strings -->
+    <string name="values_match_toast">You got it!</string>
+
 </resources>
