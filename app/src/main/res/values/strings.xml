@@ -1,15 +1,10 @@
 <resources>
     <string name="app_name">Binary Switches</string>
-    <string name="value_1">1</string>
-    <string name="value_2">2</string>
-    <string name="value_4">4</string>
-    <string name="value_8">8</string>
-    <string name="value_16">16</string>
-    <string name="value_32">32</string>
-    <string name="value_64">64</string>
-    <string name="value_128">128</string>
     <string name="goal">Goal</string>
     <string name="current">Current</string>
     <string name="new_number">New Number</string>
     <string name="reset">Reset</string>
+
+    <string name="number_format">%1$d</string>
+
 </resources>
