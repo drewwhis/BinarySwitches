@@ -2,25 +2,25 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
     <drewwhis.binaryswitches.ui.views.BitViewGroup
         android:id="@+id/nybble_bit_3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <drewwhis.binaryswitches.ui.views.BitViewGroup
         android:id="@+id/nybble_bit_2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <drewwhis.binaryswitches.ui.views.BitViewGroup
         android:id="@+id/nybble_bit_1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <drewwhis.binaryswitches.ui.views.BitViewGroup
         android:id="@+id/nybble_bit_0"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 </merge>
