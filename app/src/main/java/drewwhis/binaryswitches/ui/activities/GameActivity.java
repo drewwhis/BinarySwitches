@@ -70,7 +70,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     final ConstraintLayout topLayout = findViewById(R.id.game_activity_layout);
-    final LinearLayout scrollLayout = findViewById(R.id.nybble_scroll);
+    final LinearLayout scrollLayout = findViewById(R.id.nybble_scroll_linear);
 
     for (int i = 2 * BYTES - 1; i >= 0; i--) {
       NybbleViewGroup nybbleViewGroup = new NybbleViewGroup(this);
