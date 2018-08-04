@@ -19,7 +19,7 @@ import drewwhis.binaryswitches.R;
 import drewwhis.binaryswitches.ui.views.ToggleLabelViewGroup;
 
 public class GameActivity extends AppCompatActivity {
-  private static final int BYTES = 1;
+  private static final int BYTES = 4;
   private static final int BITS_PER_BYTE = 8;
   private static final int MAX_BOUND = (int) Math.pow(2, BYTES * BITS_PER_BYTE);
 
@@ -47,7 +47,7 @@ public class GameActivity extends AppCompatActivity {
     initializeAllTextViews();
 
     if (newNumber == null) {
-      newNumber = findViewById(R.id.newNumberButton);
+      newNumber = findViewById(R.id.new_number_button);
       newNumber.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -61,21 +61,39 @@ public class GameActivity extends AppCompatActivity {
     }
 
     final ConstraintLayout topLayout = findViewById(R.id.game_activity_layout);
-
     ToggleLabelViewGroup toggleLabelViewGroup;
-    ConstraintSet constraintSet;
+    int topConstrainingViewId = R.id.current_text;
 
-    for (int i = BYTES; i > 0; i--) {
-      toggleLabelViewGroup = new ToggleLabelViewGroup(this, BITS_PER_BYTE * BYTES - 1);
+    for (int row = BYTES; row > 0; row--) {
+      toggleLabelViewGroup = new ToggleLabelViewGroup(this, row * BITS_PER_BYTE - 1);
+      toggleLabelViewGroup.setId(View.generateViewId());
       topLayout.addView(toggleLabelViewGroup);
 
-      constraintSet = new ConstraintSet();
+      ConstraintSet constraintSet = new ConstraintSet();
       constraintSet.clone(topLayout);
       constraintSet.connect(toggleLabelViewGroup.getId(), ConstraintSet.LEFT, topLayout.getId(), ConstraintSet.LEFT, 16);
+      constraintSet.connect(toggleLabelViewGroup.getId(), ConstraintSet.TOP, topConstrainingViewId, ConstraintSet.BOTTOM, 16);
+      constraintSet.applyTo(topLayout);
+
+      topConstrainingViewId = toggleLabelViewGroup.getId();
+
+      for (int bit = 2; bit <= 8; bit++) {
+        toggleLabelViewGroup = new ToggleLabelViewGroup(this, row * BITS_PER_BYTE - bit);
+        toggleLabelViewGroup.setId(View.generateViewId());
+        topLayout.addView(toggleLabelViewGroup);
+
+        constraintSet = new ConstraintSet();
+        constraintSet.clone(topLayout);
+        constraintSet.connect(toggleLabelViewGroup.getId(), ConstraintSet.LEFT, topConstrainingViewId, ConstraintSet.RIGHT, 0);
+        constraintSet.connect(toggleLabelViewGroup.getId(), ConstraintSet.TOP, topConstrainingViewId, ConstraintSet.TOP, 0);
+        constraintSet.applyTo(topLayout);
+
+        topConstrainingViewId = toggleLabelViewGroup.getId();
+      }
     }
 
     if (reset == null) {
-      reset = findViewById(R.id.resetButton);
+      reset = findViewById(R.id.reset_button);
       reset.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
